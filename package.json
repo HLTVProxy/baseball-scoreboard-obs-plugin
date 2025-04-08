@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:a": "TARGET=ComponentA vite build",
+    "build:b": "TARGET=ComponentB vite build",
+    "build:all": "npm run build:a && npm run build:b && node scripts/create-index.js"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -16,6 +19,7 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@tailwindcss/vite": "^4.0.12",
+    "@types/node": "^22.14.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react-swc": "^3.8.0",
