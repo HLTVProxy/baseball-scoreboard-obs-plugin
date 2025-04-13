@@ -32,10 +32,10 @@ const html = `
   </style>
 </head>
 <body>
-  <h1>React 元件展示</h1>
+  <h1>Baseball Scoreboard Component List</h1>
   <ul class="component-list">
-    <li><a href="./componenta/index.html">元件 A</a></li>
-    <li><a href="./componentb/index.html">元件 B</a></li>
+    <li><a href="./componenta.html">Component A</a></li>
+    <li><a href="./componentb.html">Component B</a></li>
   </ul>
 </body>
 </html>
@@ -63,13 +63,37 @@ const createComponentHTML = (name) => `
 // 寫入主索引頁面
 fs.writeFileSync(path.resolve(__dirname, '../dist/index.html'), html);
 
-// 為每個元件創建示例頁面
+// 為每個元件創建示例頁面，但放在根目錄下
 ['ComponentA', 'ComponentB'].forEach((comp) => {
-  const dir = path.resolve(__dirname, `../dist/${comp.toLowerCase()}`);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+  // 確保 scripts 目錄存在 (以防萬一)
+  const scriptsDir = path.resolve(__dirname, '../dist/scripts');
+  if (!fs.existsSync(scriptsDir)) {
+    fs.mkdirSync(scriptsDir, { recursive: true });
   }
-  fs.writeFileSync(path.resolve(dir, 'index.html'), createComponentHTML(comp));
+
+  // 創建元件的 HTML 檔案，直接放在 dist 根目錄中
+  const componentHtml = `
+  <!DOCTYPE html>
+  <html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${comp}</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="./scripts/${comp.toLowerCase()}.js"></script>
+  </body>
+  </html>
+  `;
+
+  fs.writeFileSync(
+    path.resolve(__dirname, `../dist/${comp.toLowerCase()}.html`),
+    componentHtml
+  );
 });
 
-console.log('所有頁面已生成完成!');
+console.log('所有頁面已生成完成！');
